@@ -13,7 +13,7 @@ with open("data_set.csv", "w") as f:
         description = fake.text(max_nb_chars=60)[:-1]
         completed = bool(random.getrandbits(1))
         priority = random.randint(1, 5)
-        due_date = fake.date_time().strftime("%m/%d/%y %I:%M %p")
-        completed_date = fake.date_time().strftime("%m/%d/%y %I:%M %p")
+        due_date = fake.past_datetime().strftime("%m/%d/%y %I:%M %p")
+        completed_date = fake.future_datetime().strftime("%m/%d/%y %I:%M %p")
 
         f.write(name + "," + description + "," + str(completed) + "," + str(priority) + "," + due_date + "," + completed_date + "\n") # [:-1] removes "." at the end of sentence

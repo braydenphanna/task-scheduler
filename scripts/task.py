@@ -20,8 +20,4 @@ class Task:
         # helpful datetime formatting cheat sheet: https://strftime.org/
         due_date = datetime.datetime.strptime(values[4], "%m/%d/%y %I:%M %p")
         creation_date = datetime.datetime.strptime(values[5], "%m/%d/%y %I:%M %p")
-        return cls(values[0], values[1], values[2], values[3], due_date, creation_date)
-
-with open("data_set.csv") as f:
-    for line in f.read().splitlines()[1:]: # removes first row of file
-        print(Task.from_csv(line))
+        return cls(values[0], values[1], "True" == values[2], values[3], due_date, creation_date)
