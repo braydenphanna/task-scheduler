@@ -14,9 +14,14 @@ class Task:
 {"▝▀▘" if self.completed else "└─┘"} \x1B[2m{self.dueDate.strftime("%-m/%-d/%y, %-I:%M %p")}\x1B[0m"""
         return s
 
-task1 = Task("Eat breakfast", "Eat 3 eggs and drink milk", True, 1, datetime.datetime(2025, 9, 25, 8), datetime.datetime.now())
-task2 = Task("Add sorting to program", "Code merge sort", False, 1, datetime.datetime(2025, 9, 25, 12), datetime.datetime.now())
-task3 = Task("Sleep", "Lay in bed", False, 1, datetime.datetime(2025, 9, 25, 23), datetime.datetime.now())
-print(task1)
-print(task2)
-print(task3)
+    @classmethod
+    def from_csv(cls, line):
+        values = line.split(",")
+        # helpful datetime formatting cheat sheet: https://strftime.org/
+        due_date = datetime.datetime.strptime(values[4], "%m/%d/%y %I:%M %p")
+        creation_date = datetime.datetime.strptime(values[5], "%m/%d/%y %I:%M %p")
+        return cls(values[0], values[1], values[2], values[3], due_date, creation_date)
+
+with open("data_set.csv") as f:
+    for line in f.read().splitlines()[1:]: # removes first row of file
+        print(Task.from_csv(line))
