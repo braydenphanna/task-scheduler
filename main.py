@@ -9,6 +9,5 @@ with open("data_set.csv") as f:
         #print(Task.from_csv(line))
         tasks.append(Task.from_csv(line))
 
-tasks = Sort.merge(tasks,Sort.By.NAME)
 for task in tasks:
     print(task)
