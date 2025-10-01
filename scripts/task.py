@@ -16,6 +16,9 @@ class Task:
 {"▝▀▘" if self.completed else "└─┘"} \x1B[2m{self.dueDate.strftime("%#m/%#d/%y, %#I:%M %p")}\x1B[0m"""
         return s
 
+    def contains(self, query):
+        return query in self.name or query in self.description
+
     @classmethod
     def from_csv(cls, line):
         values = line.split(",")

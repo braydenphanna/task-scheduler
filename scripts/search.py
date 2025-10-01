@@ -1,8 +1,14 @@
-import task
+from scripts.task import Task
 
-def binary(query, tasks):
-    # write method to binary search through a list of tasks
-    pass
+class Search:
+    # returns single task
+    def binary(tasks, query):
+        pass
 
-def linear(tasks):
-    pass
+    # returns multiple tasks
+    def linear(tasks, query):
+        results = []
+        for task in tasks:
+            if (task.contains(query)):
+                results.append(task)
+        return results

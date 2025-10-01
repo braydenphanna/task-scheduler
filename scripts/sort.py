@@ -51,10 +51,10 @@ class Sort:
             else:
                 end -= 1
                 Sort.__swap(tasks, end, 0)
-            Sort.__siftDown(tasks, start, end, by)
+            Sort.__sink(tasks, start, end, by)
         return tasks
 
-    def __siftDown(tasks, root, end, by):
+    def __sink(tasks, root, end, by):
         while 2 * root + 1 < end:
             child = 2 * root + 1
             if child + 1 < end and tasks[child].compare(tasks[child + 1], by):

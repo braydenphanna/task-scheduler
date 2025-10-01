@@ -4,6 +4,6 @@ personal and team productivity. Students will implement efficient task managemen
 scheduling, and machine learning to predict deadlines and task completion likelihood.
 ## Usage
 ```shell
-python3 generate_data.py
+python3 ./scripts/generate_data.py
 python3 task.py
 ```
