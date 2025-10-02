@@ -6,7 +6,7 @@ NUMBER_OF_LINES = 10
 
 fake = Faker(['en_US'])
 
-with open("data_set.csv", "w") as f:
+with open("../data_set.csv", "w") as f:
     f.write("ID,NAME,DESCRIPTION,COMPLETED,PRIORITY,DUE_DATE,CREATION_DATE\n") 
     for i in range(NUMBER_OF_LINES):
         name = fake.text(max_nb_chars=20)[:-1]

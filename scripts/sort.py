@@ -8,9 +8,30 @@ class Sort:
         CREATION_DATE = 3
         COMPLETED = 4
         PRIORITY = 5
-        
+
     def quick(tasks, by):
-        pass
+        if len(tasks) <= 1:
+            return tasks
+        return Sort.__quick_helper(tasks, 0, len(tasks) - 1, by)
+
+    def __quick_helper(tasks, low, high, by):
+        if low < high:
+            pivot_index = Sort.__partition(tasks, low, high, by)
+            Sort.__quick_helper(tasks, low, pivot_index - 1, by)
+            Sort.__quick_helper(tasks, pivot_index + 1, high, by)
+        return tasks
+
+    def __partition(tasks, low, high, by):
+        pivot = tasks[high]  # last element as pivot
+        i = low - 1
+
+        for j in range(low, high):
+            if tasks[j].compare(pivot, by):
+                i += 1
+                Sort.__swap(tasks, i, j)  # use existing swap function
+
+        Sort.__swap(tasks, i + 1, high)  # swap pivot
+        return i + 1
 
     def merge(tasks, by):
         if len(tasks) <= 1:

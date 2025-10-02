@@ -21,7 +21,7 @@ with open("data_set.csv") as f:
     for line in f.read().splitlines()[1:]: # removes first row of file
         tasks.append(Task.from_csv(line))
 
-tasks = Sort.heap(tasks, Sort.By.NAME)
+tasks = Sort.quick(tasks, Sort.By.PRIORITY)
 
 # for task in tasks:
-#     print(task)
+#    print(task)
