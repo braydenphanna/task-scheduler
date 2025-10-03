@@ -52,6 +52,9 @@ class Search:
         lowerQuery = query.lower()
         i = lowerString.find(lowerQuery)
         while i != -1:
+
+            # Fix so that this doesn't remove bolding on names
+
             string = string[:i]+"\033[35m"+string[i:i+len(query)]+"\033[0m"+string[i+len(query):]
             lowerString =lowerString[:i]+(" " * (len(query)+9))+lowerString[i+len(query):]
             i = lowerString.find(lowerQuery)
