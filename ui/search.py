@@ -24,7 +24,7 @@ class Search:
             if key == keyboard.Key.backspace:
                 Search.query = Search.query[:-1]
                 print("\rsearch: " + Search.query, end="", flush=True)
-            if key == keyboard.Key.space:
+            elif key == keyboard.Key.space:
                 Search.query+=" "
                 print("\rsearch: " + Search.query, end="", flush=True)
             elif key == keyboard.Key.esc or key == keyboard.Key.enter:
