@@ -1,6 +1,6 @@
 from scripts.task import Task
 from scripts.sort import Sort
-from scripts.search import Search
+from ui.search import Search
 import datetime
 import sys
 
@@ -23,5 +23,6 @@ with open("data_set.csv") as f:
 
 tasks = Sort.quick(tasks, Sort.By.PRIORITY)
 
+Search.start(tasks)
 # for task in tasks:
 #    print(task)

@@ -17,7 +17,11 @@ class Task:
         return s
 
     def contains(self, query):
-        return query in self.name or query in self.description
+        return query.lower() in self.name.lower() or query.lower() in self.description.lower()
+    
+    def clone(self):
+        return Task(self.id, self.name, self.description, self.completed, self.priority, self.due_date, self.creation_date)
+
 
     @classmethod
     def from_csv(cls, line):
