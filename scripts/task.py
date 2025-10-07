@@ -12,8 +12,8 @@ class Task:
         self.creation_date = creation_date
 
     def __str__(self):
-        s = f"""{"▗▄▖" if self.completed else "┌─┐"} \x1B[1m{self.name}\x1B[0m: {self.description}
-{"▝▀▘" if self.completed else "└─┘"} \x1B[2m{self.due_date.strftime("%#m/%#d/%y, %#I:%M %p")}\x1B[0m"""
+        s = f"""{"▗▄▖" if self.completed else "┌─┐"} \x1B[1m{self.name}\x1B[22m: {self.description}
+{"▝▀▘" if self.completed else "└─┘"} \x1B[2m{self.due_date.strftime("%#m/%#d/%y, %#I:%M %p")}\x1B[22m"""
         return s
 
     def contains(self, query):
@@ -22,6 +22,8 @@ class Task:
     def clone(self):
         return Task(self.id, self.name, self.description, self.completed, self.priority, self.due_date, self.creation_date)
 
+    def invert(self):
+        return "\033[7m" + self.__str__() + "\033[27m"
 
     @classmethod
     def from_csv(cls, line):
