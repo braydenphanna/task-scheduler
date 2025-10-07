@@ -2,7 +2,7 @@ from faker import Faker
 import random
 import datetime
 
-NUMBER_OF_LINES = 10
+NUMBER_OF_LINES = 1000
 
 fake = Faker(['en_US'])
 
