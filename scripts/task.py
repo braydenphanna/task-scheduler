@@ -22,8 +22,8 @@ class Task:
     def clone(self):
         return Task(self.id, self.name, self.description, self.completed, self.priority, self.due_date, self.creation_date)
 
-    def invert(self):
-        return "\033[7m" + self.__str__() + "\033[27m"
+    def invert(self, spacing):
+        return f"\033[7m{str(self)}{' '*spacing}\033[27m"
 
     @classmethod
     def from_csv(cls, line):
