@@ -22,7 +22,7 @@ class Task:
     def clone(self):
         return Task(self.id, self.name, self.description, self.completed, self.priority, self.due_date, self.creation_date)
 
-    def invert(self):
+    def invert(self, spacing):
         return f"\033[7m{str(self)}{' '*spacing}\033[27m"
 
     @classmethod
@@ -33,6 +33,13 @@ class Task:
         creation_date = datetime.strptime(values[6], "%m/%d/%y %I:%M %p")
         return cls(values[0], values[1], values[2], "True" == values[3], values[4], due_date, creation_date)
     
+    def to_csv(self):
+        with open("data_set.csv", "r") as f:
+            text = f.readlines() 
+            text[int(self.id)+1] = self.id + "," + self.name + "," + self.description + "," + str(self.completed) + "," + self.priority + "," + self.due_date.strftime("%m/%d/%y %I:%M %p") + "," + self.creation_date.strftime("%m/%d/%y %I:%M %p") + "\n"
+            with open("data_set.csv",'w') as f:
+                f.writelines(text)
+
     def compare(self, task, by=Sort.By.NAME):
         if by == Sort.By.NAME:
             return self.name < task.name
