@@ -9,7 +9,6 @@ import math
 # https://jakob-bagterp.github.io/colorist-for-python/ansi-escape-codes/
 
 class Search:
-
     tasks = []
     results = []
     query = ""
