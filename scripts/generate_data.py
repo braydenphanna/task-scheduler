@@ -6,14 +6,48 @@ NUMBER_OF_LINES = 1000
 
 fake = Faker(['en_US'])
 
-with open("data_set.csv", "w") as f:
-    f.write("ID,NAME,DESCRIPTION,COMPLETED,PRIORITY,DUE_DATE,CREATION_DATE\n") 
-    for i in range(NUMBER_OF_LINES):
-        name = fake.text(max_nb_chars=20)[:-1]
-        description = fake.text(max_nb_chars=60)[:-1]
-        completed = bool(random.getrandbits(1))
-        priority = random.randint(1, 5)
-        due_date = fake.past_datetime().strftime("%m/%d/%y %I:%M %p")
-        completed_date = fake.future_datetime().strftime("%m/%d/%y %I:%M %p")
+# fixed task list - can add more
+tasks_list = [
+    "Check emails",
+    "Join meeting",
+    "Work on project",
+    "Call client",
+    "Submit assignment",
+    "Team brainstorming",
+    "Review report",
+    "Update documentation",
+    "Plan schedule",
+    "Code review"
+]
 
-        f.write(str(i) + "," + name + "," + description + "," + str(completed) + "," + str(priority) + "," + due_date + "," + completed_date + "\n") # [:-1] removes "." at the end of sentence
+with open("data_set.csv", "w") as f:
+    f.write("ID,NAME,DESCRIPTION,COMPLETED,PRIORITY,DUE_DATE,CREATION_DATE\n")
+    for i in range(NUMBER_OF_LINES):
+        # pick a task from the fixed list
+        name = random.choice(tasks_list)
+
+        # description can still be random text
+        description = fake.text(max_nb_chars=60)[:-1]
+
+        # priority based on task type
+        if name in ["Submit assignment", "Work on project"]:
+            priority = random.randint(3, 5)  # high
+        elif name in ["Join meeting", "Call client"]:
+            priority = random.randint(1, 4)
+        else:
+            priority = random.randint(1, 3)  # low
+
+        # completion probability based on priority
+        if priority >= 4:
+            completed = bool(random.random() < 0.85)
+        elif priority >= 2:
+            completed = bool(random.random() < 0.7)
+        else:
+            completed = bool(random.random() < 0.5)
+
+        # Random due and creation dates
+        creation_date = fake.past_datetime(start_date="-30d")
+        due_date = creation_date + datetime.timedelta(days=random.randint(0, 10))
+
+        f.write(
+            f"{i},{name},{description},{completed},{priority},{due_date.strftime('%m/%d/%y %I:%M %p')},{creation_date.strftime('%m/%d/%y %I:%M %p')}\n")
