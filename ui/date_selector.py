@@ -1,6 +1,7 @@
 from pynput import keyboard
 from ui.util import Util
 import pywinctl
+from datetime import datetime
 
 class DateSelector:
     date = []
@@ -14,6 +15,8 @@ class DateSelector:
         DateSelector.__print_date()
         with keyboard.Listener(on_press=DateSelector.__on_press) as listener:
             listener.join()
+        print() # new line
+        return datetime.strptime("".join(DateSelector.date).strip(), "%m/%d/%y %I:%M %p")
 
     def __print_date():
         print("".join(DateSelector.date[DateSelector.i:]), end=f"\r{"".join(DateSelector.date[:DateSelector.i])}")
@@ -29,7 +32,8 @@ class DateSelector:
                         print(DateSelector.date[DateSelector.i], end="", flush=True)
                 elif (DateSelector.i == 15 and key.char in ["a", "A", "p", "P"]):
                     DateSelector.date[DateSelector.i] = key.char.upper()
-                    DateSelector.i += 1 # skips past M in AM and PM
+                    DateSelector.i += 2 # skips past M in AM and PM
+                    return False
                 
                 if (DateSelector.i > len(DateSelector.date)):
                     return False

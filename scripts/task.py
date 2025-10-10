@@ -12,7 +12,7 @@ class Task:
         self.creation_date = creation_date
 
     def __str__(self):
-        s = f"""{" ◻️ " if self.completed else " ◼️ "} \x1B[1m{self.name}\x1B[22m\x1B[39m: {self.description}
+        s = f"""{" ◼️ " if self.completed else " ◻️ "} \x1B[1m{self.name}\x1B[22m\x1B[39m: {self.description}{" " * (18 - (len(self.name) + len(self.description) + 2))}
 {"   " if self.completed else "   "} {self.due_date.strftime("%#m/%#d/%y, %#I:%M %p")}"""
         return s
 
@@ -34,11 +34,7 @@ class Task:
         return cls(values[0], values[1], values[2], "True" == values[3], values[4], due_date, creation_date)
     
     def to_csv(self):
-        with open("data_set.csv", "r") as f:
-            text = f.readlines() 
-            text[int(self.id)+1] = self.id + "," + self.name + "," + self.description + "," + str(self.completed) + "," + self.priority + "," + self.due_date.strftime("%m/%d/%y %I:%M %p") + "," + self.creation_date.strftime("%m/%d/%y %I:%M %p") + "\n"
-            with open("data_set.csv",'w') as f:
-                f.writelines(text)
+        return str(self.id) + "," + self.name + "," + self.description + "," + str(self.completed) + "," + str(self.priority) + "," + self.due_date.strftime("%m/%d/%y %I:%M %p") + "," + self.creation_date.strftime("%m/%d/%y %I:%M %p") + "\n"
 
     def compare(self, task, by=Sort.By.NAME):
         if by == Sort.By.NAME:
