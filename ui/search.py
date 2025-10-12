@@ -94,6 +94,10 @@ class Search:
 
                     # Cursor stays in the same spot on page switch
                     Search.selected-=Search.tasks_per_page
+                
+                elif key == keyboard.Key.delete:
+                    Search.tasks.remove(Search.results[Search.selected-1])
+
 
             print("search: " + Search.query, end="", flush=True)
             Util.print_bar()
@@ -104,11 +108,13 @@ class Search:
         i = 1
         Search.results = S.linear(Search.tasks, Search.query)
         for task in Search.results:
+            x = (10 + len(str(Search.page)) + len(str(int(len(Search.results) / Search.tasks_per_page))))
             if i < Search.page*Search.tasks_per_page-Search.tasks_per_page+1:
                 i+=1
                 continue
             elif i > Search.page*Search.tasks_per_page:
-                print(f"◄  {int(Search.page)}  ►".center(os.get_terminal_size().columns))
+                print("─" * x + "┬" + "─" * (os.get_terminal_size().columns - x - 1))
+                print(f"Page {int(Search.page)} of {int(len(Search.results)/Search.tasks_per_page)} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
                 break
 
             temp = task.clone()
@@ -123,7 +129,9 @@ class Search:
                 print(temp)  
             
             if i == len(Search.results): 
-                print(f"◄  {int(Search.page)}  ►".center(os.get_terminal_size().columns))
+                print("─" * x + "┬" + "─" * (os.get_terminal_size().columns - x - 1))
+                print(f"Page {int(Search.page)} of {int(len(Search.results)/Search.tasks_per_page)} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
+                break
 
             i+=1
             
