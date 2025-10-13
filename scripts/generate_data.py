@@ -52,3 +52,5 @@ def generate():
 
             f.write(
                 f"{i},{name},{description},{completed},{priority},{due_date},{creation_date}\n")
+
+generate()
