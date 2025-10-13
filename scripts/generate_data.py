@@ -3,7 +3,7 @@ import random
 import datetime
 
 def generate():
-    NUMBER_OF_LINES = 100
+    NUMBER_OF_LINES = 1000
 
     fake = Faker(['en_US'])
 
@@ -48,8 +48,7 @@ def generate():
 
             # Random due and creation dates
             creation_date = fake.past_datetime().strftime("%m/%d/%y %I:%M %p")
-            # subtracting time delta to allow generation of tasks due today
-            due_date = (fake.future_datetime() - datetime.timedelta(days=1)).strftime("%m/%d/%y %I:%M %p")
+            due_date = fake.date_this_year().strftime("%m/%d/%y %I:%M %p")
 
             f.write(
                 f"{i},{name},{description},{completed},{priority},{due_date},{creation_date}\n")
