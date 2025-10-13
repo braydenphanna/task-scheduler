@@ -6,7 +6,7 @@ from scripts.task_knn import suggested_tasks
 from scripts.generate_data import generate
 from ui.search import Search
 from ui.get_task import GetTask
-import datetime
+from datetime import datetime
 import sys
 
 tasks = []
@@ -31,13 +31,16 @@ elif ("-g" in sys.argv or "--generate" in sys.argv):
     generate()
 elif ("-s" in sys.argv or "--search" in sys.argv):
     Search.start(tasks)
+elif ("-d" in sys.argv or "--daily" in sys.argv):
+    Search.start(list(filter(lambda t: t.due_date.date() == datetime.today().date(), tasks)))
 elif ("-r" in sys.argv or "--recommend" in sys.argv):
     suggested_tasks()
 else:
     print(f"\n{BOLD}Usage:{END_BOLD}\n {GREEN}./task-scheduler.py{END_GREEN} [option]\n")
     print(f"{BOLD}Options:{END_BOLD}")
     print(" -a, --add      \tadd a task")
+    print(" -d, --daily    \tfetch daily tasks")
     print(" -g, --generate \tgenerate fake tasks")
-    print(" -s, --search   \tsearch tasks")
     print(" -r, --recommend\trecommend tasks")
+    print(" -s, --search   \tsearch tasks")
     print("\n -h, --help   \t\tdisplay this help\n")

@@ -48,7 +48,8 @@ def generate():
 
             # Random due and creation dates
             creation_date = fake.past_datetime().strftime("%m/%d/%y %I:%M %p")
-            due_date = fake.future_datetime().strftime("%m/%d/%y %I:%M %p")
+            # subtracting time delta to allow generation of tasks due today
+            due_date = (fake.future_datetime() - datetime.timedelta(days=1)).strftime("%m/%d/%y %I:%M %p")
 
             f.write(
                 f"{i},{name},{description},{completed},{priority},{due_date},{creation_date}\n")

@@ -15,7 +15,8 @@ class Search:
     windowTitle = ""
     selected = 1
     page = 1
-    tasks_per_page = math.floor((os.get_terminal_size().lines - 4) / 2)
+    tasks_per_page = 0
+    total_pages = 0
 
     def start(t):
         Search.windowTitle = pywinctl.getActiveWindowTitle()
@@ -23,6 +24,8 @@ class Search:
         print("search: ", end="", flush=True)
         Util.print_bar()
         Search.tasks = t
+        Search.tasks_per_page = math.floor((os.get_terminal_size().lines - 4) / 2)
+        Search.total_pages = math.ceil(len(Search.tasks) / float(Search.tasks_per_page))
         Search.__print_results()
         with keyboard.Listener(on_press=Search.__on_press) as listener:
             listener.join()
@@ -31,6 +34,7 @@ class Search:
         if Search.windowTitle == pywinctl.getActiveWindowTitle():
             Util.clear_screen()
             Search.tasks_per_page = math.floor((os.get_terminal_size().lines - 4) / 2)
+            Search.total_pages = math.ceil(len(Search.tasks) / float(Search.tasks_per_page))
 
             try:
                 # any letter key: adds letter to query
@@ -70,12 +74,12 @@ class Search:
                 elif key == keyboard.Key.down:
                     if Search.selected < Search.page*Search.tasks_per_page and Search.selected<len(Search.results): 
                         Search.selected+=1
-                    elif Search.selected==Search.page*Search.tasks_per_page and Search.page<len(Search.results)/Search.tasks_per_page: 
+                    elif Search.selected==Search.page*Search.tasks_per_page and Search.page<Search.total_pages: 
                         Search.page+=1
                         Search.selected+=1
 
                 # right arrow: jumps forward one page (if possible)
-                elif key == keyboard.Key.right and Search.page<len(Search.results)/Search.tasks_per_page:
+                elif key == keyboard.Key.right and Search.page<Search.total_pages:
                     Search.page+=1
                     # Cursor resets to the first of each page on page switch
                     #Search.selected=(Search.page*Search.tasks_per_page)-Search.tasks_per_page+1
@@ -108,13 +112,13 @@ class Search:
         i = 1
         Search.results = S.linear(Search.tasks, Search.query)
         for task in Search.results:
-            x = (10 + len(str(Search.page)) + len(str(int(len(Search.results) / Search.tasks_per_page))))
+            x = (10 + len(str(Search.page)) + len(str(Search.total_pages)))
             if i < Search.page*Search.tasks_per_page-Search.tasks_per_page+1:
                 i+=1
                 continue
             elif i > Search.page*Search.tasks_per_page:
                 print("─" * x + "┬" + "─" * (os.get_terminal_size().columns - x - 1))
-                print(f"Page {int(Search.page)} of {int(len(Search.results)/Search.tasks_per_page)} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
+                print(f"Page {int(Search.page)} of {Search.total_pages} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
                 break
 
             temp = task.clone()
@@ -130,7 +134,7 @@ class Search:
             
             if i == len(Search.results): 
                 print("─" * x + "┬" + "─" * (os.get_terminal_size().columns - x - 1))
-                print(f"Page {int(Search.page)} of {int(len(Search.results)/Search.tasks_per_page)} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
+                print(f"Page {int(Search.page)} of {Search.total_pages} │ (Enter) Complete Task  (Del) Delete Task  (Esc) Exit")
                 break
 
             i+=1
