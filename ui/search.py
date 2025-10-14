@@ -24,8 +24,9 @@ class Search:
         print("search: ", end="", flush=True)
         Util.print_bar()
         Search.tasks = t
+        Search.results = Search.tasks
         Search.tasks_per_page = math.floor((os.get_terminal_size().lines - 4) / 2)
-        Search.total_pages = math.ceil(len(Search.tasks) / float(Search.tasks_per_page))
+        Search.total_pages = math.ceil(len(Search.results) / float(Search.tasks_per_page))
         Search.__print_results()
         with keyboard.Listener(on_press=Search.__on_press) as listener:
             listener.join()
@@ -34,7 +35,7 @@ class Search:
         if Search.windowTitle == pywinctl.getActiveWindowTitle():
             Util.clear_screen()
             Search.tasks_per_page = math.floor((os.get_terminal_size().lines - 4) / 2)
-            Search.total_pages = math.ceil(len(Search.tasks) / float(Search.tasks_per_page))
+            Search.total_pages = math.ceil(len(Search.results) / float(Search.tasks_per_page))
 
             try:
                 # any letter key: adds letter to query
